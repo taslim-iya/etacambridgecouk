@@ -11,6 +11,7 @@ import Community from './pages/Community';
 import Contact from './pages/Contact';
 import CaseStudies from './pages/CaseStudies';
 import Admin from './pages/Admin';
+import Matching from './pages/Matching';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -27,6 +28,7 @@ function App() {
     community: 'Community',
     contact: 'Contact',
     casestudies: 'Case Studies',
+    matching: 'Cambridge ETA Matching',
   };
 
   const renderPage = () => {
@@ -39,6 +41,7 @@ function App() {
       case 'community': return <Community onNavigate={setCurrentPage} />;
       case 'contact': return <Contact />;
       case 'casestudies': return <CaseStudies onNavigate={setCurrentPage} />;
+      case 'matching': return <Matching onNavigate={setCurrentPage} />;
       case 'admin': return <Admin />;
       default: return <Home onNavigate={setCurrentPage} />;
     }

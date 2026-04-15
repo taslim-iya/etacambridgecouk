@@ -191,6 +191,29 @@ export default function Home({ onNavigate }: HomeProps) {
         </div>
       </section>
 
+      {/* Matching Promo */}
+      <section className="bg-white py-20 md:py-28 border-b border-[#e6e0d0]">
+        <div className="max-w-6xl mx-auto px-4 sm:px-8">
+          <div className="border-2 border-eta-navy p-8 sm:p-12 md:flex md:items-center md:justify-between gap-8">
+            <div className="mb-6 md:mb-0 md:max-w-xl">
+              <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-eta-gold font-sans mb-3">New Program</p>
+              <h2 className="font-serif text-2xl sm:text-3xl font-bold text-eta-navy mb-3">Cambridge ETA Matching</h2>
+              <p className="text-sm font-sans leading-relaxed" style={{ color: '#5a5550' }}>
+                Connect with search partners, collaborators, mentors, and ETA internship opportunities through our curated matching program for the broader ETA community.
+              </p>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-3 flex-shrink-0">
+              <button onClick={() => onNavigate('matching')} className="eta-btn-primary justify-center">
+                Explore Matching <ArrowRight size={15} />
+              </button>
+              <button onClick={() => onNavigate('matching')} className="eta-btn-secondary justify-center">
+                Recruit Through the Community
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <MailingListSignup
         source="home"
         heading="Begin your ETA journey today."

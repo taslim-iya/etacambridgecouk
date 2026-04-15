@@ -27,6 +27,7 @@ export default function Navigation({ currentPage, onNavigate }: NavigationProps)
     { id: 'casestudies', label: 'Case Studies', desc: 'Real-world ETA transaction examples', keywords: ['case studies', 'case study', 'examples', 'transactions', 'deals'] },
     { id: 'resources', label: 'Resources', desc: 'Books, primers, and research materials', keywords: ['resources', 'books', 'primers', 'research', 'articles', 'reading'] },
     { id: 'community', label: 'Community', desc: 'Join the Cambridge ETA network', keywords: ['community', 'join', 'network', 'members', 'connect'] },
+    { id: 'matching', label: 'Matching', desc: 'Partner and internship matching for the ETA community', keywords: ['matching', 'partner', 'internship', 'search partner', 'talent', 'recruit', 'opportunities', 'collaborator', 'operator'] },
     { id: 'contact', label: 'Contact', desc: 'Get in touch with the team', keywords: ['contact', 'email', 'message', 'touch', 'enquiry'] },
   ];
 
@@ -57,6 +58,7 @@ export default function Navigation({ currentPage, onNavigate }: NavigationProps)
     { id: 'casestudies', label: 'Case Studies' },
     { id: 'resources', label: 'Resources' },
     { id: 'community', label: 'Community' },
+    { id: 'matching', label: 'Matching' },
     { id: 'contact', label: 'Contact' },
   ];
 
