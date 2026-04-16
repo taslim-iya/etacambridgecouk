@@ -13,7 +13,7 @@ export default function Footer({ onNavigate }: FooterProps) {
     { id: 'casestudies', label: 'Case Studies' },
     { id: 'resources', label: 'Resources' },
     { id: 'community', label: 'Community' },
-    { id: 'matching', label: 'Matching' },
+    { id: 'matching', label: 'Matching Program' },
     { id: 'contact', label: 'Contact' },
   ];
 

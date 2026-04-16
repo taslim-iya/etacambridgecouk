@@ -1,4 +1,4 @@
-import { Users, Briefcase, ArrowRight, CheckCircle, ChevronDown, ChevronUp, Handshake, GraduationCap, Shield, HelpCircle, Building2, UserPlus } from 'lucide-react';
+import { Users, Briefcase, ArrowRight, CheckCircle, ChevronDown, ChevronUp, Handshake, GraduationCap, Shield, HelpCircle, Building2, UserPlus, X, Send } from 'lucide-react';
 import { useState } from 'react';
 
 interface MatchingProps { onNavigate: (page: string) => void; }
@@ -14,8 +14,118 @@ const FAQS = [
   { q: 'Is there a cost to apply?', a: 'Currently, there is no cost to apply.' },
 ];
 
+type ModalType = 'partner' | 'internship' | 'general' | 'opportunity' | null;
+
+const ROLE_OPTIONS = ['Student', 'Alumni', 'Searcher', 'Aspiring Searcher', 'Operator', 'Investor', 'Advisor', 'Independent Sponsor', 'ETA Ecosystem Professional', 'Other'];
+
+function ApplicationModal({ type, onClose }: { type: ModalType; onClose: () => void }) {
+  const [submitted, setSubmitted] = useState(false);
+  const [form, setForm] = useState({ name: '', email: '', role: '', linkedin: '', background: '', lookingFor: '', message: '' });
+
+  const titles: Record<string, string> = {
+    partner: 'Apply for Partner Matching',
+    internship: 'Apply for Internship Matching',
+    general: 'Apply for Matching',
+    opportunity: 'Submit an Opportunity',
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Store locally for now — ready for Typeform/Tally/Supabase integration
+    const submissions = JSON.parse(localStorage.getItem('eta-matching-submissions') || '[]');
+    submissions.push({ ...form, type, submittedAt: new Date().toISOString() });
+    localStorage.setItem('eta-matching-submissions', JSON.stringify(submissions));
+    setSubmitted(true);
+  };
+
+  if (!type) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose}>
+      <div className="absolute inset-0 bg-black/40" />
+      <div className="relative bg-white w-full max-w-lg max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+        <div className="flex items-center justify-between p-6 border-b border-[#e6e0d0]">
+          <h2 className="font-serif text-lg font-bold text-eta-navy">{titles[type] || 'Apply'}</h2>
+          <button onClick={onClose} className="text-eta-muted hover:text-eta-navy transition-colors"><X size={18} /></button>
+        </div>
+
+        {submitted ? (
+          <div className="p-8 text-center">
+            <div className="w-14 h-14 bg-eta-navy/5 rounded-full flex items-center justify-center mx-auto mb-4">
+              <CheckCircle size={28} className="text-eta-navy" />
+            </div>
+            <h3 className="font-serif text-xl font-bold text-eta-navy mb-2">Application received</h3>
+            <p className="text-sm font-sans text-eta-muted mb-6">
+              Thank you for your submission. The team will review your application and be in touch if there is a relevant match or opportunity.
+            </p>
+            <button onClick={onClose} className="eta-btn-primary">Close</button>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="p-6 space-y-4">
+            <div>
+              <label className="text-[11px] font-bold uppercase tracking-wider text-eta-muted font-sans block mb-1.5">Full Name *</label>
+              <input required value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
+                className="w-full border-2 border-[#e6e0d0] px-4 py-2.5 text-sm font-sans text-eta-navy outline-none focus:border-eta-navy transition-colors" placeholder="Your full name" />
+            </div>
+            <div>
+              <label className="text-[11px] font-bold uppercase tracking-wider text-eta-muted font-sans block mb-1.5">Email *</label>
+              <input required type="email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+                className="w-full border-2 border-[#e6e0d0] px-4 py-2.5 text-sm font-sans text-eta-navy outline-none focus:border-eta-navy transition-colors" placeholder="your@email.com" />
+            </div>
+            <div>
+              <label className="text-[11px] font-bold uppercase tracking-wider text-eta-muted font-sans block mb-1.5">Your Role *</label>
+              <select required value={form.role} onChange={e => setForm(f => ({ ...f, role: e.target.value }))}
+                className="w-full border-2 border-[#e6e0d0] px-4 py-2.5 text-sm font-sans text-eta-navy outline-none focus:border-eta-navy transition-colors bg-white">
+                <option value="">Select your role</option>
+                {ROLE_OPTIONS.map(r => <option key={r} value={r}>{r}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="text-[11px] font-bold uppercase tracking-wider text-eta-muted font-sans block mb-1.5">LinkedIn Profile</label>
+              <input value={form.linkedin} onChange={e => setForm(f => ({ ...f, linkedin: e.target.value }))}
+                className="w-full border-2 border-[#e6e0d0] px-4 py-2.5 text-sm font-sans text-eta-navy outline-none focus:border-eta-navy transition-colors" placeholder="https://linkedin.com/in/..." />
+            </div>
+            <div>
+              <label className="text-[11px] font-bold uppercase tracking-wider text-eta-muted font-sans block mb-1.5">Background *</label>
+              <textarea required value={form.background} onChange={e => setForm(f => ({ ...f, background: e.target.value }))} rows={3}
+                className="w-full border-2 border-[#e6e0d0] px-4 py-2.5 text-sm font-sans text-eta-navy outline-none focus:border-eta-navy transition-colors resize-none"
+                placeholder={type === 'opportunity' ? 'Tell us about your organisation and the opportunity...' : 'Brief background — your experience, current role, and ETA interest...'} />
+            </div>
+            <div>
+              <label className="text-[11px] font-bold uppercase tracking-wider text-eta-muted font-sans block mb-1.5">
+                {type === 'opportunity' ? 'What are you looking for?' : 'What are you looking for? *'}
+              </label>
+              <textarea required={type !== 'opportunity'} value={form.lookingFor} onChange={e => setForm(f => ({ ...f, lookingFor: e.target.value }))} rows={3}
+                className="w-full border-2 border-[#e6e0d0] px-4 py-2.5 text-sm font-sans text-eta-navy outline-none focus:border-eta-navy transition-colors resize-none"
+                placeholder={type === 'partner' ? 'What kind of partner or collaborator are you looking for?'
+                  : type === 'internship' ? 'What type of internship or role are you seeking?'
+                  : type === 'opportunity' ? 'Describe the role, requirements, and ideal candidate...'
+                  : 'Describe what you are looking for...'} />
+            </div>
+            <div>
+              <label className="text-[11px] font-bold uppercase tracking-wider text-eta-muted font-sans block mb-1.5">Anything else?</label>
+              <textarea value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))} rows={2}
+                className="w-full border-2 border-[#e6e0d0] px-4 py-2.5 text-sm font-sans text-eta-navy outline-none focus:border-eta-navy transition-colors resize-none"
+                placeholder="Optional — any additional context" />
+            </div>
+            <div className="pt-2">
+              <button type="submit" className="eta-btn-primary w-full justify-center">
+                <Send size={14} /> Submit Application
+              </button>
+              <p className="text-[10px] font-sans text-eta-muted mt-3 text-center">
+                Applications are reviewed by the club. Submission does not guarantee a match or placement.
+              </p>
+            </div>
+          </form>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function Matching({ onNavigate }: MatchingProps) {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [modal, setModal] = useState<ModalType>(null);
 
   return (
     <div>
@@ -30,8 +140,8 @@ export default function Matching({ onNavigate }: MatchingProps) {
             A curated matching program for members of the ETA community looking to build, buy, grow, and support businesses through entrepreneurship through acquisition.
           </p>
           <div className="flex flex-wrap gap-3">
-            <a href="#apply-matching" className="eta-btn-primary">Apply for Matching <ArrowRight size={15} /></a>
-            <a href="#submit-opportunity" className="eta-btn-secondary">Recruit Through the Community</a>
+            <button onClick={() => setModal('general')} className="eta-btn-primary">Apply for Matching <ArrowRight size={15} /></button>
+            <button onClick={() => setModal('opportunity')} className="eta-btn-secondary">Recruit Through the Community</button>
           </div>
         </div>
       </section>
@@ -76,7 +186,7 @@ export default function Matching({ onNavigate }: MatchingProps) {
                   <span key={tag} className="text-[11px] font-bold uppercase tracking-wider text-eta-muted bg-[#f7f2e4] px-3 py-1.5 font-sans">{tag}</span>
                 ))}
               </div>
-              <a href="#apply-partner" className="eta-btn-primary w-full justify-center">Apply for Partner Matching <ArrowRight size={15} /></a>
+              <button onClick={() => setModal('partner')} className="eta-btn-primary w-full justify-center">Apply for Partner Matching <ArrowRight size={15} /></button>
             </div>
 
             {/* Internship Matching */}
@@ -101,7 +211,7 @@ export default function Matching({ onNavigate }: MatchingProps) {
                   <span key={tag} className="text-[11px] font-bold uppercase tracking-wider text-eta-muted bg-[#f7f2e4] px-3 py-1.5 font-sans">{tag}</span>
                 ))}
               </div>
-              <a href="#apply-internship" className="eta-btn-primary w-full justify-center">Apply for Internship Matching <ArrowRight size={15} /></a>
+              <button onClick={() => setModal('internship')} className="eta-btn-primary w-full justify-center">Apply for Internship Matching <ArrowRight size={15} /></button>
             </div>
           </div>
         </div>
@@ -207,7 +317,7 @@ export default function Matching({ onNavigate }: MatchingProps) {
               </div>
             </div>
             <div className="flex flex-wrap gap-3">
-              <a href="#submit-opportunity" className="eta-btn-primary">Submit an Opportunity <ArrowRight size={15} /></a>
+              <button onClick={() => setModal('opportunity')} className="eta-btn-primary">Submit an Opportunity <ArrowRight size={15} /></button>
               <button onClick={() => onNavigate('contact')} className="eta-btn-secondary">Contact Us</button>
             </div>
           </div>
@@ -255,15 +365,18 @@ export default function Matching({ onNavigate }: MatchingProps) {
             Whether you are looking for a search partner, an internship, or strong ETA talent, the program is here to help.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
-            <a href="#apply-matching" className="bg-eta-gold text-eta-navy text-sm font-bold font-sans px-6 py-3 hover:bg-eta-gold-light transition-colors duration-150 inline-flex items-center gap-2">
+            <button onClick={() => setModal('general')} className="bg-eta-gold text-eta-navy text-sm font-bold font-sans px-6 py-3 hover:bg-eta-gold-light transition-colors duration-150 inline-flex items-center gap-2">
               Apply for Matching <ArrowRight size={15} />
-            </a>
-            <a href="#submit-opportunity" className="border-2 border-white/30 text-white text-sm font-bold font-sans px-6 py-3 hover:bg-white/10 transition-colors duration-150 inline-flex items-center gap-2">
+            </button>
+            <button onClick={() => setModal('opportunity')} className="border-2 border-white/30 text-white text-sm font-bold font-sans px-6 py-3 hover:bg-white/10 transition-colors duration-150 inline-flex items-center gap-2">
               Submit an Opportunity
-            </a>
+            </button>
           </div>
         </div>
       </section>
+
+      {/* Application Modal */}
+      {modal && <ApplicationModal type={modal} onClose={() => setModal(null)} />}
     </div>
   );
 }
