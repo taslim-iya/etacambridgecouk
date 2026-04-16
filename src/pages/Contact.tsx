@@ -134,8 +134,8 @@ export default function Contact() {
               <div className="bg-white p-6">
                 <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-eta-gold font-sans mb-3">Direct Contact</p>
                 <h3 className="font-black text-eta-navy font-sans text-base mb-3 leading-tight tracking-tight">Prefer to email us directly?</h3>
-                <a href="mailto:team@etacambridge.com" className="text-eta-navy font-bold font-sans text-sm hover:text-eta-navy-mid transition-colors">
-                  team@etacambridge.com
+                <a href="mailto:team@etacambridge.co.uk" className="text-eta-navy font-bold font-sans text-sm hover:text-eta-navy-mid transition-colors">
+                  team@etacambridge.co.uk
                 </a>
                 <p className="text-eta-muted text-xs font-sans mt-3 leading-relaxed">
                   We typically respond within 2-3 business days.

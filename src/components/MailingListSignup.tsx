@@ -60,8 +60,8 @@ export default function MailingListSignup({
             <p className="text-white/55 font-sans text-sm leading-relaxed mb-4">
               {subheading}
             </p>
-            <a href="mailto:team@etacambridge.com" className="text-eta-gold text-sm font-bold font-sans hover:text-eta-gold-light transition-colors">
-              team@etacambridge.com
+            <a href="mailto:team@etacambridge.co.uk" className="text-eta-gold text-sm font-bold font-sans hover:text-eta-gold-light transition-colors">
+              team@etacambridge.co.uk
             </a>
           </div>
           <div>

@@ -39,7 +39,7 @@ export default function Footer({ onNavigate }: FooterProps) {
               <a href="#" className="w-8 h-8 border border-white/20 flex items-center justify-center hover:border-eta-gold hover:text-eta-gold transition-colors" aria-label="Instagram">
                 <Instagram size={13} />
               </a>
-              <a href="mailto:team@etacambridge.com" className="w-8 h-8 border border-white/20 flex items-center justify-center hover:border-eta-gold hover:text-eta-gold transition-colors" aria-label="Email">
+              <a href="mailto:team@etacambridge.co.uk" className="w-8 h-8 border border-white/20 flex items-center justify-center hover:border-eta-gold hover:text-eta-gold transition-colors" aria-label="Email">
                 <Mail size={13} />
               </a>
             </div>
@@ -85,8 +85,8 @@ export default function Footer({ onNavigate }: FooterProps) {
             <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-white/35 font-sans mb-4">Contact</p>
             <p className="text-xs text-white/55 font-sans mb-0.5">Cambridge Judge Business School</p>
             <p className="text-xs text-white/55 font-sans mb-4">Trumpington Street, Cambridge<br />CB2 1AG, United Kingdom</p>
-            <a href="mailto:team@etacambridge.com" className="text-xs text-eta-gold font-bold font-sans hover:text-eta-gold-light transition-colors">
-              team@etacambridge.com
+            <a href="mailto:team@etacambridge.co.uk" className="text-xs text-eta-gold font-bold font-sans hover:text-eta-gold-light transition-colors">
+              team@etacambridge.co.uk
             </a>
           </div>
         </div>
