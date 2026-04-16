@@ -7,8 +7,9 @@ import AdminEvents from '../components/AdminEvents';
 import AdminAnalytics from '../components/AdminAnalytics';
 import AdminUsers from '../components/AdminUsers';
 import AdminEmailSettings from '../components/AdminEmailSettings';
+import AdminMatching from '../components/AdminMatching';
 
-type AdminTab = 'dashboard' | 'resources' | 'events' | 'analytics' | 'admin' | 'email';
+type AdminTab = 'dashboard' | 'matching' | 'resources' | 'events' | 'analytics' | 'admin' | 'email';
 
 export default function Admin() {
   const [session, setSession] = useState<any>(null);
@@ -155,15 +156,15 @@ export default function Admin() {
               onChange={e => setActiveTab(e.target.value as AdminTab)}
               className="w-full bg-white/10 border border-white/20 text-white font-sans font-bold text-sm px-4 py-2.5 focus:outline-none focus:border-eta-gold"
             >
-              {(['dashboard', 'resources', 'events', 'analytics', 'admin', 'email'] as AdminTab[]).map(tab => (
+              {(['dashboard', 'matching', 'resources', 'events', 'analytics', 'admin', 'email'] as AdminTab[]).map(tab => (
                 <option key={tab} value={tab} className="bg-eta-navy text-white">
-                  {tab === 'email' ? 'Email Settings' : tab.charAt(0).toUpperCase() + tab.slice(1)}
+                  {tab === 'email' ? 'Email Settings' : tab === 'matching' ? 'Matching' : tab.charAt(0).toUpperCase() + tab.slice(1)}
                 </option>
               ))}
             </select>
           </div>
           <div className="hidden sm:flex gap-2 overflow-x-auto scrollbar-none">
-            {(['dashboard', 'resources', 'events', 'analytics', 'admin', 'email'] as AdminTab[]).map(tab => (
+            {(['dashboard', 'matching', 'resources', 'events', 'analytics', 'admin', 'email'] as AdminTab[]).map(tab => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -173,7 +174,7 @@ export default function Admin() {
                     : 'text-white/60 border-transparent hover:text-white'
                 }`}
               >
-                {tab === 'email' ? 'Email Settings' : tab.charAt(0).toUpperCase() + tab.slice(1)}
+                {tab === 'email' ? 'Email Settings' : tab === 'matching' ? 'Matching' : tab.charAt(0).toUpperCase() + tab.slice(1)}
               </button>
             ))}
           </div>
@@ -182,6 +183,7 @@ export default function Admin() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-8 py-8">
         {activeTab === 'dashboard' && <AdminDashboard />}
+        {activeTab === 'matching' && <AdminMatching />}
         {activeTab === 'resources' && <AdminResources />}
         {activeTab === 'events' && <AdminEvents />}
         {activeTab === 'analytics' && <AdminAnalytics />}
